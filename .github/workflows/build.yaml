@@ -6,7 +6,7 @@ name: ASP.NET CORE CLI
 on:
   push:
     branches:
-      - main:
+      - main
 
 #manual trigger
   workflow_dispatch:
