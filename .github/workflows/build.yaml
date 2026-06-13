@@ -40,7 +40,7 @@ jobs:
       - name: Setup .NET 
         uses: actions/setup-dotnet@v4   #Install required SDK's
         with:
-          dotnet-version  '9.0.x'
+          dotnet-version:  '9.0.x'
 
         # download required packages are download before running the project must packages are restore
         # Like swagger, Efcore packages, exception handling packages
