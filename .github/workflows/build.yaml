@@ -1,0 +1,90 @@
+name: ASP.NET CORE CLI
+
+# here two types of triggers there is manual and automatic trigger
+
+#This is automatic trigger
+on:
+  push:
+    branches:
+      - main:
+
+#manual trigger
+  workflow_dispatch:
+
+#here jobs consists of many steps job is task every job can do some tasks and step can do also jobs/ taks
+jobs:
+  build:
+
+    #we decide a runner here using runs-on: -- os type like macos,windows,linux (ubuntu)
+
+    runs-on: windows-latest 
+
+    #Every job consists of many steps here step we can decide the task what can do here only
+    steps:
+    
+      # here name is userdefined step means task right here checkout is step1
+      # checkout means the github repo into github actions runner 
+      # before running the runner do no know the which files inside our repo so we giving to access and checkout the files what inside the repo's
+      - name: Checkout Code   
+
+        #Downloads the our source code
+        # the repository files become available on the runner.
+        uses: actions/checkout@v4 # checkout code using version v4
+
+        # Another step is step 2
+        # Here step2 needs the required packages installation SDK
+        # Installs the required .NET SDK version on the runner.
+        #Download .NET 8 SDK
+        # Install .NET 8 SDK
+        # Add dotnet to PATH
+      - name: Setup .NET 
+        uses: actions/setup-dotnet@v4   #Install required SDK's
+        with:
+          dotnet-version  '9.0.x'
+
+        # download required packages are download before running the project must packages are restore
+        # Like swagger, Efcore packages, exception handling packages
+        # CI/ CD
+        # Below mention two steps are write CI/CD
+        # it downloads these packages from NuGet and stores them locally on the runner.
+      - name: dotnet restore packages   # Download required NUGet packages
+        run: dotnet restore
+
+        # Compiles your source code into DLL files.
+        # Here checks the syntax Error, missing refernces, Type Mismatch, invlaid method calls, complination warnings
+        # Example int age = "25";
+        # Build fails with:
+        # Cannot implicitly convert type 'string' to 'int'
+      - name: Build Application # build our source code
+        run: dotnet bulid --configuration Release  --no-restore # here no-restore means already downloaded the required packages so can not restore or downloaded packages because slowing process
+        #Why --no-restore?
+        # After:
+        # dotnet restore
+        # packages are already downloaded.
+         #dotnet build --configuration Debug 
+         # Used during development.
+         #dotnet build --configuration Release
+         # dotnet build is used to create a bin folder
+         
+
+         #Main Points
+         #--------------------
+         # dotnet restore -- downloads nuget packages and dependenices required by the project
+         # dotnet build  -- complies the source code into assmblies (DLL's/EXE's) and check the compilation errors.
+         # dotnet restore gets packages like EF Core, Swagger, and AutoMapper,
+         # dotnet build -- compiles controllers, services, repositories, and other application code into deployable assemblies.
+
+      - name: Publish Application  # create a deployment files
+        run: dotnet publish -c Release -o publish --no-build
+
+        #--no-build --> is often used because the project was already built in the previous step, making the pipeline faster.
+        
+
+
+
+
+
+
+    
+
+    
