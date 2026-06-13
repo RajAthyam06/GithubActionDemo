@@ -56,7 +56,7 @@ jobs:
         # Build fails with:
         # Cannot implicitly convert type 'string' to 'int'
       - name: Build Application # build our source code
-        run: dotnet bulid --configuration Release  --no-restore # here no-restore means already downloaded the required packages so can not restore or downloaded packages because slowing process
+        run: dotnet build --configuration Release  --no-restore # here no-restore means already downloaded the required packages so can not restore or downloaded packages because slowing process
         #Why --no-restore?
         # After:
         # dotnet restore
