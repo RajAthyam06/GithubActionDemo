@@ -9,7 +9,7 @@ namespace GithubActionDemo.Controllers
         [HttpGet]
         public string Get()
         {
-            return "Hello from GitHub actions";
+            return "version 2";
         }
     }
 
